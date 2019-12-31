@@ -1,0 +1,11 @@
+html, body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#particles {
+    background: linear-gradient(to right, #ee69ff, #955af9);
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
