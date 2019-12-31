@@ -10,8 +10,24 @@
 </head>
 
 <body>
-    <div id="particles"></div>
+    <div class="login">
+        <h1 class="login-title">Sign in</h1>
+        <span>
+            Not a member yet?
+            <a href="#" class="login-link">Create an account</a>!
+        </span>
+        <form class="login-form">
+            <label for="username">Username</label>
+            <input class="text-field" type="text" id="username">
 
+            <label for="password">Password</label>
+            <input class="text-field" type="password" id="password">
+
+            <input type="submit" id="submit" value="Sign in">
+        </form>
+    </div>
+
+    <div id="particles"></div>
     <script src="../static/js/particles.min.js"></script>
     <script src="../static/js/index.js"></script>
 </body>
