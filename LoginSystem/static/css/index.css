@@ -28,7 +28,7 @@ a {
 
     position: fixed;
     left: 50%;
-    margin-left: calc((var(--width) + 100px) / -2);;
+    margin-left: calc((var(--width) + 100px) / -2);
     top: 50%;
     margin-top: calc((var(--height) + 100px) / -2);
     z-index: 1;
@@ -69,6 +69,10 @@ a {
     width: 300px;
 }
 
+.form-row {
+    margin-bottom: 40px;
+}
+
 .text-field {
     font-family: sans-serif, monospace;
     border: none;
@@ -79,7 +83,6 @@ a {
     border-bottom: 2px solid #afafaf;
     font-size: 1.5em;
     width: 100%;
-    margin-bottom: 35px;
 }
 
 .text-field:focus,
@@ -101,4 +104,9 @@ input[type=submit]:hover {
     border-color: #7613a0;
     background: transparent;
     color: #7613a0;
+}
+
+input[type=checkbox] {
+    margin-top: 20px;
+    transform: scale(1.3);
 }

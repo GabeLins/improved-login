@@ -1,35 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block content %}
+<div class="login">
+    <h1 class="login-title">Sign in</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <title>Login</title>
-</head>
+    <span>
+        Not a member yet?
+        <a href="#" class="login-link">Create an account</a>!
+    </span>
 
-<body>
-    <div class="login">
-        <h1 class="login-title">Sign in</h1>
-        <span>
-            Not a member yet?
-            <a href="#" class="login-link">Create an account</a>!
-        </span>
-        <form class="login-form">
+    <form class="login-form" method="POST">
+        <div class="form-row">
             <label for="username">Username</label>
-            <input class="text-field" type="text" id="username">
+            <input class="text-field" type="text" id="username" name="user">
+        </div>
 
+        <div class="form-row">
             <label for="password">Password</label>
-            <input class="text-field" type="password" id="password">
+            <input class="text-field" type="password" id="password" name="pass">
+            <input type="checkbox" id="keep">
+            <label for="keep">Keep me signed in</label>
+        </div>
 
-            <input type="submit" id="submit" value="Sign in">
-        </form>
-    </div>
-
-    <div id="particles"></div>
-    <script src="../static/js/particles.min.js"></script>
-    <script src="../static/js/index.js"></script>
-</body>
-
-</html>
+        <input type="submit" id="submit" value="Sign in">
+    </form>
+</div>
+{% endblock %}
