@@ -1,28 +1,35 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="login">
-    <h1 class="login-title">Sign in</h1>
+<div class="form-panel login">
+    <h1 class="sign-title">Sign in</h1>
 
     <span>
         Not a member yet?
-        <a href="#" class="login-link">Create an account</a>!
+        <a href="{{ url_for('auth.render_register') }}" class="sign-link">Create an account</a>!
     </span>
 
-    <form class="login-form" method="POST">
+    <form class="sign-form" method="POST">
         <div class="form-row">
-            <label for="username">Username</label>
-            <input class="text-field" type="text" id="username" name="user">
+            <div class="text-input">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="user" placeholder="harry.potter">
+            </div>
         </div>
-
         <div class="form-row">
-            <label for="password">Password</label>
-            <input class="text-field" type="password" id="password" name="pass">
-            <input type="checkbox" id="keep" name="keep">
-            <label for="keep">Keep me signed in</label>
+            <div class="text-input">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="pass">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="check-input" style="margin-top: -35px;">
+                <input type="checkbox" id="keep" name="keep">
+                <label for="keep">Keep me signed in</label>
+            </div>
         </div>
 
         <input type="submit" id="submit" value="Sign in">
-        <a href="#" class="forget login-link">Forgot your password?</a>
+        <a href="#" class="forget sign-link">Forgot your password?</a>
     </form>
 </div>
 {% endblock %}
