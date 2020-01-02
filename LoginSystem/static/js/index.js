@@ -63,3 +63,41 @@ particlesJS('particles', {
     },
     retina_detect: true
 });
+
+function verify_register () {
+    const firstName = document.getElementById('first-name'),
+          lastName = document.getElementById('last-name'),
+          username = document.getElementById('username'),
+          password = document.getElementById('password'),
+          confirm = document.getElementById('confirm'),
+          email = document.getElementById('email');
+    
+    firstName.addEventListener('input', () => {
+        $err_name.innerHTML = '';
+    }, { once: true });
+
+    lastName.addEventListener('input', () => {
+        $err_last.innerHTML = '';
+    }, { once: true });
+
+    username.addEventListener('input', () => {
+        $err_user.innerHTML = '';
+    }, { once: true });
+
+    confirm.addEventListener('input', () => {
+        $err_pass.innerHTML = '';
+    }, { once: true });
+
+    email.addEventListener('input', () => {
+        $err_mail.innerHTML = '';
+    }, { once: true });
+
+    password.addEventListener('input', () => {
+        if ( password.value.length < 8 ) return;
+        $err_leng.innerHTML = '';
+    });
+}
+
+if ( window.location.pathname === '/register' ) {
+    verify_register();
+}

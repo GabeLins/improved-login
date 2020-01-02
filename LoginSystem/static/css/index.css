@@ -136,3 +136,8 @@ input[type=checkbox] {
     left: 50%;
     margin-left: -81px;
 }
+
+.error {
+    color: #ff2e39;
+    margin-bottom: -10px;
+}

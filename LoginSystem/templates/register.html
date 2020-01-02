@@ -8,41 +8,47 @@
         <a href="{{ url_for('auth.render_login') }}" class="sign-link">Sign in</a>!
     </span>
 
-    <form class="sign-form" method="POST">
+    <form class="sign-form" method="POST" id="reg">
         <div class="form-row">
             <div class="text-input">
                 <label for="first-name">First Name</label>
                 <input type="text" id="first-name" name="first" placeholder="Harry">
+                <span class="error" id="$err_name">{{ errors.name }}</span>
             </div>
             <div class="text-input">
                 <label for="last-name">Last Name</label>
                 <input type="text" id="last-name" name="last" placeholder="Potter">
+                <span class="error" id="$err_last">{{ errors.last }}</span>
             </div>
         </div>
         <div class="form-row">
             <div class="text-input">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="harry.potter">
+                <span class="error" id="$err_user">{{ errors.user }}</span>
             </div>
         </div>
         <div class="form-row">
             <div class="text-input">
                 <label for="email">Email Address</label>
                 <input type="text" id="email" name="email" placeholder="harry.potter@hogwarts.edu">
+                <span class="error" id="$err_mail">{{ errors.mail }}</span>
             </div>
         </div>
         <div class="form-row">
             <div class="text-input">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password">
+                <span class="error" id="$err_leng">{{ errors.leng }}</span>
             </div>
             <div class="text-input">
                 <label for="confirm">Confirm Password</label>
                 <input type="password" id="confirm" name="confirm">
+                <span class="error" id="$err_pass">{{ errors.pass }}</span>
             </div>
         </div>
 
-        <input type="submit" id="submit" value="Sign up">
+        <input type="submit" id="submit" value="Sign up" onclick="">
     </form>
 </div>
 {% endblock %}

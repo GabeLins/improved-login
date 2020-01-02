@@ -1,26 +1,42 @@
-from flask_login import login_user
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, \
+    request, flash, url_for
+from flask_login import login_user, login_required, \
+    logout_user, current_user
 from LoginSystem.models import User
 from LoginSystem import db
 
 auth = Blueprint('auth', __name__)
+errs = {}
 
 # Render functions
 @auth.route('/login')
 def render_login ():
+    if ( current_user.is_authenticated ):
+        return redirect(url_for('home'))
+
     return render_template(
         'login.html',
         title='Sign in',
         script='/static/js/index.js'
     )
 
+
 @auth.route('/register')
 def render_register ():
+    global errs
+    errors = errs
+    errs = { 'user':'', 'pass':'', 'leng':'', 'mail':'' }
+
+    if ( current_user.is_authenticated ):
+        return redirect(url_for('home'))
+
     return render_template(
         'register.html',
         title='Sign up',
-        script='/static/js/index.js'
+        script='/static/js/index.js',
+        errors=errors
     )
+
 
 
 # Processing functions
@@ -33,12 +49,17 @@ def login ():
 
         user = User.query.filter_by(username=_user).first()
         if ( user and _pass == user.password ):
-            return print('SUCCESS!!') # TODO: Add endpoint
+            login_user(user, remember=_keep)
+            return redirect(url_for('home'))
         else:
-            return print('Invalid username or password...') # TODO: Add endpoint
+            return print('Invalid username or password...') # TODO: Add flash
+
 
 @auth.route('/register', methods=['POST', 'GET'])
 def register ():
+    global errs
+    errs = { 'user':'', 'pass':'', 'leng':'', 'mail':'' }
+
     if ( request.method == 'POST' ):
         first_name = request.form['first']
         last_name = request.form['last']
@@ -50,10 +71,14 @@ def register ():
         username_error = User.query.filter_by(username=username).first()
         email_error = User.query.filter_by(email=email).first()
         match_error = password != confirm
+        length_error = len(password) < 8
+        lname_error = last_name == ''
+        fname_error = first_name == ''
 
-        errors = [ username_error, email_error, match_error ]
+        errors = [ username_error, email_error, match_error, 
+                   length_error, lname_error, fname_error ]
 
-        if ( not all(errors) ):
+        if ( not any(errors) ):
             user = User(
                 username=username,
                 password=password,
@@ -64,15 +89,32 @@ def register ():
 
             db.session.add(user)
             db.session.commit()
-            return print('SUCCESS!!') # TODO: Add endpoint
+            return redirect(url_for('auth.login'))
         
         # Error handlers
+        if ( fname_error ):
+            errs['name'] = 'Empty field.'
+
+        if ( lname_error ):
+            errs['last'] = 'Empty field.'
+
         if ( username_error ):
-            return print('Username already in use...') # TODO: Add endpoint
+            errs['user'] = 'Username already in use.'
 
         if ( email_error ):
-            return print('Email already in use...') # TODO: Add endpoint
-
-        if ( match_error ):
-            return print('Passwords didn\'t match...') # TODO: Add endpoint
+            errs['mail'] = 'Email already in use.'
         
+        if ( length_error ):
+            errs['leng'] = 'Password must be at least 8 characters long.'
+
+        elif ( match_error ):
+            errs['pass'] = 'Passwords didn\'t match.'
+
+        return redirect(url_for('auth.register'))
+
+
+@auth.route('/logout')
+@login_required
+def logout ():
+    logout_user()
+    return redirect(url_for('auth.login'))
