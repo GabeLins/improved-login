@@ -22,6 +22,7 @@ a {
 
 .login { --height: 540px; }
 .register { --height: 670px; }
+.update { --height: 670px; }
 
 .form-panel {
     --width: 470px;

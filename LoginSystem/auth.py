@@ -22,8 +22,7 @@ def render_login ():
 
     return render_template(
         'login.html',
-        title='Sign in',
-        script='/static/js/index.js'
+        title='Sign in'
     )
 
 
@@ -39,7 +38,6 @@ def render_register ():
     return render_template(
         'register.html',
         title='Sign up',
-        script='/static/js/index.js',
         errors=errors
     )
 

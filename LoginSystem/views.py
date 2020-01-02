@@ -6,5 +6,8 @@ from LoginSystem import app, db
 @app.route('/')
 @login_required
 def home ():
-    return current_user.username
-
+    return render_template(
+        'index.html',
+        title='Index - {}'.format(current_user.username),
+        user=current_user
+    )
