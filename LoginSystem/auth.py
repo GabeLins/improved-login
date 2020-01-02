@@ -4,9 +4,15 @@ from flask_login import login_user, login_required, \
     logout_user, current_user
 from LoginSystem.models import User
 from LoginSystem import db
+import hashlib
 
 auth = Blueprint('auth', __name__)
 errs = {}
+
+
+def encrypt ( string ):
+    return hashlib.sha256(string.encode('utf-8')).hexdigest()
+
 
 # Render functions
 @auth.route('/login')
@@ -48,7 +54,7 @@ def login ():
         _keep = 'keep' in request.form
 
         user = User.query.filter_by(username=_user).first()
-        if ( user and _pass == user.password ):
+        if ( user and encrypt(_pass) == user.password ):
             login_user(user, remember=_keep)
             return redirect(url_for('home'))
         else:
@@ -81,7 +87,7 @@ def register ():
         if ( not any(errors) ):
             user = User(
                 username=username,
-                password=password,
+                password=encrypt(password),
                 email=email,
                 first_name=first_name,
                 last_name=last_name
