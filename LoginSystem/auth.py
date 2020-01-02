@@ -1,28 +1,30 @@
-from flask import Blueprint, render_template, redirect, \
-    request, flash, url_for
-from flask_login import login_user, login_required, \
-    logout_user, current_user
+from flask import Blueprint, render_template, redirect
+from flask_login import login_user, login_required
+from flask_login import logout_user, current_user
+from bcrypt import hashpw, checkpw, gensalt
+from flask import request, flash, url_for
 from LoginSystem.models import User
 from LoginSystem import db
-import hashlib
 
 auth = Blueprint('auth', __name__)
 errs = {}
 
 
-def encrypt ( string ):
-    return hashlib.sha256(string.encode('utf-8')).hexdigest()
-
-
 # Render functions
 @auth.route('/login')
 def render_login ():
+    global errs
+    errors = errs
+    errs = { 'user':'', 'pass':'', 'leng':'', 'mail':'',
+             'logn':'', 'name':'', 'last':'' }
+             
     if ( current_user.is_authenticated ):
         return redirect(url_for('home'))
 
     return render_template(
         'login.html',
-        title='Sign in'
+        title='Sign in',
+        errors=errors
     )
 
 
@@ -30,7 +32,8 @@ def render_login ():
 def render_register ():
     global errs
     errors = errs
-    errs = { 'user':'', 'pass':'', 'leng':'', 'mail':'' }
+    errs = { 'user':'', 'pass':'', 'leng':'', 'mail':'',
+             'logn':'', 'name':'', 'last':'' }
 
     if ( current_user.is_authenticated ):
         return redirect(url_for('home'))
@@ -46,23 +49,25 @@ def render_register ():
 # Processing functions
 @auth.route('/login', methods=['POST', 'GET'])
 def login ():
+    global errs
+
     if ( request.method == 'POST' ):
         _user = request.form['user']
         _pass = request.form['pass']
         _keep = 'keep' in request.form
 
         user = User.query.filter_by(username=_user).first()
-        if ( user and encrypt(_pass) == user.password ):
+        if ( user and checkpw(bytes(_pass, 'utf-8'), user.password)):
             login_user(user, remember=_keep)
             return redirect(url_for('home'))
         else:
-            return print('Invalid username or password...') # TODO: Add flash
+            errs['logn'] = 'Invalid username or password.'
+            return redirect(url_for('auth.login'))
 
 
 @auth.route('/register', methods=['POST', 'GET'])
 def register ():
     global errs
-    errs = { 'user':'', 'pass':'', 'leng':'', 'mail':'' }
 
     if ( request.method == 'POST' ):
         first_name = request.form['first']
@@ -85,7 +90,7 @@ def register ():
         if ( not any(errors) ):
             user = User(
                 username=username,
-                password=encrypt(password),
+                password=hashpw(bytes(password, 'utf-8'), gensalt()),
                 email=email,
                 first_name=first_name,
                 last_name=last_name
