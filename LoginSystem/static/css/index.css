@@ -22,7 +22,6 @@ a {
 
 .login { --height: 540px; }
 .register { --height: 670px; }
-.update { --height: 670px; }
 
 .form-panel {
     --width: 470px;
@@ -80,7 +79,6 @@ a {
 }
 
 .text-input input {
-    font-family: sans-serif, monospace;
     border: none;
     box-shadow: none;
     background: transparent;
@@ -97,7 +95,7 @@ a {
 }
 
 input[type=submit] {
-    background:#7613a0;
+    background: #7613a0;
     color: #ffffff;
     border: 3px solid transparent;
     margin: 30px 7.5%;
@@ -120,11 +118,28 @@ input[type=checkbox] {
 .forget {
     position: relative;
     display: block;
-    left: 50%;
-    margin-left: -81px;
+    text-align: center;
+    width: 100%;
 }
 
 .error {
     color: #ff2e39;
     margin-bottom: -10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .form-panel {
+        --width: 100% !important;
+        --height: 100% !important;
+        top: 0;
+        left: 0;
+        margin: -1px;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .form-row {
+        padding: 0 2.5%;
+        width: 95%;
+    }
 }
