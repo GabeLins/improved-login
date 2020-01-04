@@ -55,22 +55,8 @@ a {
     color: #5a3095;
 }
 
-.login-link:hover {
+.sign-link:hover {
     text-decoration: underline;
-}
-
-.button {
-    color: #ffffff;
-    font-size: 1.5rem;
-    background-color: #4D1473;
-
-    display: block;
-    position: relative;
-    left: 85px;
-    bottom: 0px;
-
-    height: 50px;
-    width: 300px;
 }
 
 .form-row {
@@ -111,7 +97,7 @@ a {
 }
 
 input[type=submit] {
-    background: linear-gradient(-240deg, #8437a6, #7613a0);
+    background:#7613a0;
     color: #ffffff;
     border: 3px solid transparent;
     margin: 30px 7.5%;
