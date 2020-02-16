@@ -31,6 +31,6 @@ if __name__ == '__main__':
     app.config.from_pyfile(configs_path)
     db.create_all(app=app)
     if ( port == 443 ):
-        ctx = ('server.crt', 'server.key')        
+        ctx = ('server.crt', 'server.key')
 
     app.run('0.0.0.0', port, ssl_context=ctx)
