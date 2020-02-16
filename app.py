@@ -8,6 +8,7 @@ configs_path = os.path.join(path, 'app.cfg')
 cert_path = os.path.join(path, 'server.key')
 
 def setup ():
+    port = 80
     if ( not os.path.exists(database_path) ):
         os.mkdir(database_path)
 
@@ -15,16 +16,21 @@ def setup ():
         generate_secret_key(configs_path)
 
     if ( not os.path.exists(cert_path) ):
-        generate_certificate()
+        use_ssl = input('Use a SSL Certificate? (Y/n): ').lower() or 'y'
+        if ( use_ssl == 'y' ):
+            generate_certificate()
+            port = 443
 
-    return 0
+    return port
 
 
 if __name__ == '__main__':
-    setup()
+    port = setup()
+    ctx = None
     
     app.config.from_pyfile(configs_path)
     db.create_all(app=app)
-    ctx = ('server.crt', 'server.key')
+    if ( port == 443 ):
+        ctx = ('server.crt', 'server.key')        
 
-    app.run('0.0.0.0', 443, ssl_context=ctx)
+    app.run('0.0.0.0', port, ssl_context=ctx)

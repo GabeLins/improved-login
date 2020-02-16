@@ -13,8 +13,8 @@ def generate_certificate ():
     cert.get_subject().L = input('Locality Name: ')
     cert.get_subject().O = input('Organization Name: ')
     cert.get_subject().OU = input('Organizational Unit Name: ')
-    commonName = input('Common Name: ')
-    cert.get_subject().CN = commonName
+    cn = input('Common Name [Leave blank for localhost]: ') or 'localhost' 
+    cert.get_subject().CN = cn
     expyears = int(input('Expiration Time [Years]: '))
     expyears *= 365*24*60*60
 
@@ -25,7 +25,7 @@ def generate_certificate ():
     cert.set_pubkey(key)
     cert.add_extensions([
         crypto.X509Extension(
-            b'subjectAltName', False, bytes(f'DNS:{commonName}', encoding='utf-8')
+            b'subjectAltName', False, bytes(f'DNS:{cn}', encoding='utf-8')
         )
     ])
 
