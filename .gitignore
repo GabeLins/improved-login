@@ -1,1 +1,5 @@
+# Prevents __pycache__ from being committed
 *.pyc
+
+# Prevents databases from being committed
+*.db
