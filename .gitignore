@@ -3,3 +3,10 @@
 
 # Prevents databases from being committed
 *.db
+
+# Prevents SSL Certificates from being committed
+*.crt
+*.key
+
+# Prevents settings from being committed
+app.cfg
