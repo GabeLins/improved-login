@@ -15,11 +15,11 @@ def setup ():
     if ( not os.path.exists(configs_path) ):
         generate_secret_key(configs_path)
 
-    if ( not os.path.exists(cert_path) ):
-        use_ssl = input('Use a SSL Certificate? (Y/n): ').lower() or 'y'
-        if ( use_ssl == 'y' ):
+    use_ssl = input('Use a SSL Certificate? (Y/n): ').lower() or 'y'
+    if ( use_ssl == 'y' ):
+        if ( not os.path.exists(cert_path) ):
             generate_certificate()
-            port = 443
+        port = 443
 
     return port
 
