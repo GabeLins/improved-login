@@ -83,8 +83,6 @@ def register ():
         errs['last'] = '' if last_name else 'Empty field.'
         errs['name'] = '' if first_name else 'Empty field.'
 
-        print(errs)
-
         if ( not any(errs.values()) ):
             user = User(
                 username=username,
