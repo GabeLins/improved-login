@@ -9,7 +9,6 @@ from LoginSystem import db
 auth = Blueprint('auth', __name__)
 errs = {}
 
-
 # Render functions
 @auth.route('/login')
 def render_login ():
@@ -77,17 +76,16 @@ def register ():
         confirm = request.form['confirm']
         email = request.form['email']
 
-        username_error = User.query.filter_by(username=username).first()
-        email_error = User.query.filter_by(email=email).first()
-        match_error = password != confirm
-        length_error = len(password) < 8
-        lname_error = last_name == ''
-        fname_error = first_name == ''
+        errs['user'] = '' if not User.query.filter_by(username=username).first() else 'Username already in use.'
+        errs['mail'] = '' if not User.query.filter_by(email=email).first() else 'Email already in use.'
+        errs['pass'] = '' if password == confirm else 'Passwords didn\'t match.'
+        errs['leng'] = '' if len(password) >= 8 else 'Password must be at least 8 characters long.'
+        errs['last'] = '' if last_name else 'Empty field.'
+        errs['name'] = '' if first_name else 'Empty field.'
 
-        errors = [ username_error, email_error, match_error, 
-                   length_error, lname_error, fname_error ]
+        print(errs)
 
-        if ( not any(errors) ):
+        if ( not any(errs.values()) ):
             user = User(
                 username=username,
                 password=hashpw(bytes(password, 'utf-8'), gensalt()),
@@ -99,25 +97,6 @@ def register ():
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('auth.login'))
-        
-        # Error handlers
-        if ( fname_error ):
-            errs['name'] = 'Empty field.'
-
-        if ( lname_error ):
-            errs['last'] = 'Empty field.'
-
-        if ( username_error ):
-            errs['user'] = 'Username already in use.'
-
-        if ( email_error ):
-            errs['mail'] = 'Email already in use.'
-        
-        if ( length_error ):
-            errs['leng'] = 'Password must be at least 8 characters long.'
-
-        elif ( match_error ):
-            errs['pass'] = 'Passwords didn\'t match.'
 
         return redirect(url_for('auth.register'))
 
