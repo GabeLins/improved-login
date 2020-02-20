@@ -11,3 +11,10 @@ def home ():
         title='Index - {}'.format(current_user.username),
         user=current_user
     )
+
+@app.errorhandler(404)
+def page_not_found ( error ):
+    return render_template(
+        '404.html',
+        title='404: Not Found'
+    )
