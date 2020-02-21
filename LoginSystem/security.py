@@ -1,9 +1,7 @@
 from secrets import token_urlsafe
 from OpenSSL import crypto, SSL
-import json
 
-
-def generate_certificate ():
+def generate_ssl ():
     key = crypto.PKey()
     key.generate_key(crypto.TYPE_RSA, 4096)
 
@@ -41,17 +39,5 @@ def generate_certificate ():
         keyfile.write(
             crypto.dump_privatekey(crypto.FILETYPE_PEM, key)
         )
-
-    return 0
-
-
-def generate_secret_key ( output ):
-    secret_key = input('Secret Key [Leave Blank for a Random Key]: ')
-
-    if ( secret_key == '' ):
-        secret_key = token_urlsafe(16)
-
-    with open(output, 'w') as cfg:
-        cfg.write(f"SECRET_KEY = '{secret_key}'")
 
     return 0

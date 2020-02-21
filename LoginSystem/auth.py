@@ -76,10 +76,22 @@ def register ():
         confirm = request.form['confirm']
         email = request.form['email']
 
-        errs['user'] = '' if not User.query.filter_by(username=username).first() else 'Username already in use.'
-        errs['mail'] = '' if not User.query.filter_by(email=email).first() else 'Email already in use.'
-        errs['pass'] = '' if password == confirm else 'Passwords didn\'t match.'
-        errs['leng'] = '' if len(password) >= 8 else 'Password must be at least 8 characters long.'
+        errs['user'] = (
+            ''
+            if not User.query.filter_by(username=username).first()
+            else 'Username already in use.'
+        )
+        errs['mail'] = (
+            ''
+            if not User.query.filter_by(email=email).first()
+            else 'Email already in use.'
+        )
+        errs['leng'] = (
+            ''
+            if len(password) >= 8
+            else 'Password must be at least 8 characters long.'
+        )
+        errs['pass'] = '' if password == confirm else "Passwords didn't match."
         errs['last'] = '' if last_name else 'Empty field.'
         errs['name'] = '' if first_name else 'Empty field.'
 
