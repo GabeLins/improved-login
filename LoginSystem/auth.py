@@ -1,21 +1,21 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, abort
 from flask_login import login_user, login_required
 from flask_login import logout_user, current_user
+from itsdangerous import URLSafeTimedSerializer
 from bcrypt import hashpw, checkpw, gensalt
 from flask import request, flash, url_for
 from LoginSystem.models import User
 from LoginSystem import db
 
+serializer = URLSafeTimedSerializer('testing key')
 auth = Blueprint('auth', __name__)
 errs = {}
 
 # Render functions
 @auth.route('/login')
 def render_login ():
-    global errs
-    errors = errs
-    errs = { 'user':'', 'pass':'', 'leng':'', 'mail':'',
-             'logn':'', 'name':'', 'last':'' }
+    errors = dict(errs)
+    errs.clear()
              
     if ( current_user.is_authenticated ):
         return redirect(url_for('home'))
@@ -29,10 +29,8 @@ def render_login ():
 
 @auth.route('/register')
 def render_register ():
-    global errs
-    errors = errs
-    errs = { 'user':'', 'pass':'', 'leng':'', 'mail':'',
-             'logn':'', 'name':'', 'last':'' }
+    errors = dict(errs)
+    errs.clear()
 
     if ( current_user.is_authenticated ):
         return redirect(url_for('home'))
@@ -44,12 +42,25 @@ def render_register ():
     )
 
 
+@auth.route('/recover')
+def render_recover ():
+    errors = dict(errs)
+    errs.clear()
+
+    if ( current_user.is_authenticated ):
+        return redirect(url_for('home'))
+
+    return render_template(
+        'recover.html',
+        title='Recover Account',
+        errors=errors
+    )
+
+
 
 # Processing functions
 @auth.route('/login', methods=['POST', 'GET'])
 def login ():
-    global errs
-
     if ( request.method == 'POST' ):
         _user = request.form['user']
         _pass = request.form['pass']
@@ -66,8 +77,6 @@ def login ():
 
 @auth.route('/register', methods=['POST', 'GET'])
 def register ():
-    global errs
-
     if ( request.method == 'POST' ):
         first_name = request.form['first']
         last_name = request.form['last']
@@ -116,3 +125,60 @@ def register ():
 def logout ():
     logout_user()
     return redirect(url_for('auth.login'))
+
+
+@auth.route('/recover', methods=['POST', 'GET'])
+def recover ():
+    if ( request.method == 'POST' ):
+        email = request.form['mail']
+
+        errs['recv'] = (
+            ''
+            if User.query.filter_by(email=email).first()
+            else 'Invalid email address.'
+        )
+
+        if ( errs['recv'] ):
+            return redirect(url_for('auth.recover'))
+        
+        ticket = serializer.dumps(email, salt='reset-password')
+        print(f'http://localhost/reset/{ticket}') # Debugging only
+
+    return redirect(url_for('auth.login'))
+
+
+@auth.route('/reset/<ticket>', methods=['POST', 'GET'])
+def reset ( ticket ):
+    errors = dict(errs)
+    errs.clear()
+
+    try:
+        email = serializer.loads(ticket, salt='reset-password', max_age=300)
+    except:
+        return abort(401)
+
+    if ( request.method == 'GET' ):
+        return render_template(
+            'reset.html',
+            title=email,
+            errors=errors
+        )
+
+    if ( request.method == 'POST' ):
+        password = request.form['password']
+        confirm = request.form['confirm']
+
+        errs['leng'] = (
+            ''
+            if len(password) >= 8
+            else 'Password must be at least 8 characters long.'
+        )
+        errs['pass'] = '' if password == confirm else "Passwords didn't match."
+        if ( errs['pass'] or errs['leng'] ):
+            return redirect(url_for('auth.reset', ticket=ticket))
+
+        user = User.query.filter_by(email=email).first()
+        user.password = hashpw(bytes(password, 'utf-8'), gensalt())
+        db.session.commit()
+
+        return redirect(url_for('auth.login'))

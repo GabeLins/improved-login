@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="form-panel" style="--height: 370px;">
+    <h1 class="sign-title">Recover Account</h1>
+
+    <span>
+        We will send you a password reset link.<br>
+        But first, we need to know who you are.
+    </span>
+
+    <form class="sign-form" method="POST">
+        <div class="form-row" >
+            <div class="text-input">
+                <label for="email">Email Address</label>
+                <input type="text" id="email" name="mail">
+                <span class="error">{{ errors.recv }}</span>
+            </div>
+        </div>
+
+        <input type="submit" id="submit" value="Send Reset Email">
+    </form>
+</div>
+{% endblock %}

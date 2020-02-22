@@ -1,6 +1,6 @@
 from LoginSystem.security import generate_ssl, token_urlsafe
-from LoginSystem import app, db
 from argparse import ArgumentParser
+from LoginSystem import app, db
 import os
 
 path = os.path.abspath(os.path.dirname(__file__))

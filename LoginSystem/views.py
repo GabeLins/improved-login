@@ -12,9 +12,12 @@ def home ():
         user=current_user
     )
 
+
+@app.errorhandler(401)
 @app.errorhandler(404)
 def page_not_found ( error ):
     return render_template(
-        '404.html',
-        title='404: Not Found'
+        'error.html',
+        title=error,
+        code=error.code
     )

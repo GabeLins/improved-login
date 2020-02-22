@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="form-panel" style="--height: 440px;">
+    <h1 class="sign-title">Reset Password</h1>
+
+    <span>
+        Just one more step...
+    </span>
+
+    <form class="sign-form" method="POST">
+        <div class="form-row" >
+            <div class="text-input">
+                <label for="password">New Password</label>
+                <input type="password" id="password" name="password">
+                <span class="error">{{ errors.leng }}</span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="text-input">
+                <label for="confirm">Confirm Password</label>
+                <input type="password" id="confirm" name="confirm">
+                <span class="error">{{ errors.pass }}</span>
+            </div>
+        </div>
+
+        <input type="submit" id="submit" value="Done">
+    </form>
+</div>
+{% endblock %}
