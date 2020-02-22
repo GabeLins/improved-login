@@ -4,13 +4,12 @@ from flask_login import logout_user, current_user
 from itsdangerous import URLSafeTimedSerializer
 from bcrypt import hashpw, checkpw, gensalt
 from flask import request, flash, url_for
-from LoginSystem.email import send_token
+from LoginSystem import db, settings
 from LoginSystem.models import User
-from LoginSystem import db
+from LoginSystem.email import *
 
-with open('secret.txt', 'r') as key:
-    serializer = URLSafeTimedSerializer(key.read())
 
+serializer = URLSafeTimedSerializer(settings['secret_key'])
 auth = Blueprint('auth', __name__)
 errs = {}
 
@@ -145,7 +144,7 @@ def recover ():
             return redirect(url_for('auth.recover'))
         
         ticket = serializer.dumps(email, salt='reset-password')
-        send_token(
+        mail_recover(
             (request.url_root, request.headers['Host']), 
             ticket, email
         )
