@@ -7,9 +7,9 @@ import smtplib
 
 def mail_recover ( domain, token, target ):
     link = os.path.join(domain[0], f'reset/{token}')
-    sender = f'{token_urlsafe(32)}@{domain[1]}'
+    sender = Address('Login No-Reply', token_urlsafe(24), domain[1])
 
-    with open('email/recover.html', 'r') as body:
+    with open('emails/recover.html', 'r') as body:
         message = EmailMessage()
         message.add_alternative(
             body.read().replace('#[LINK]#', link),
