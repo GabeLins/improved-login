@@ -4,6 +4,7 @@ from flask_login import logout_user, current_user
 from itsdangerous import URLSafeTimedSerializer
 from bcrypt import hashpw, checkpw, gensalt
 from flask import request, flash, url_for
+from LoginSystem.email import send_token
 from LoginSystem.models import User
 from LoginSystem import db
 
@@ -144,7 +145,10 @@ def recover ():
             return redirect(url_for('auth.recover'))
         
         ticket = serializer.dumps(email, salt='reset-password')
-        print(f'http://localhost/reset/{ticket}') # Debugging only
+        send_token(
+            (request.url_root, request.headers['Host']), 
+            ticket, email
+        )
 
     return redirect(url_for('auth.login'))
 

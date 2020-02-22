@@ -9,4 +9,4 @@
 *.key
 
 # Prevents settings from being committed
-secret.txt
+settings.json
