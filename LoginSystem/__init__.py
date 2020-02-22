@@ -6,6 +6,8 @@ from flask import Flask
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/login.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+with open('secret.txt', 'r') as key:
+    app.config['SECRET_KEY'] = key.read()
 db = SQLAlchemy()
 db.init_app(app)
 

@@ -7,7 +7,9 @@ from flask import request, flash, url_for
 from LoginSystem.models import User
 from LoginSystem import db
 
-serializer = URLSafeTimedSerializer('testing key')
+with open('secret.txt', 'r') as key:
+    serializer = URLSafeTimedSerializer(key.read())
+
 auth = Blueprint('auth', __name__)
 errs = {}
 

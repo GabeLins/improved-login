@@ -9,4 +9,4 @@
 *.key
 
 # Prevents settings from being committed
-app.cfg
+secret.txt

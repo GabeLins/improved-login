@@ -1,6 +1,5 @@
-from LoginSystem.security import generate_ssl, token_urlsafe
+from secrets import token_urlsafe
 from argparse import ArgumentParser
-from LoginSystem import app, db
 import os
 
 path = os.path.abspath(os.path.dirname(__file__))
@@ -38,13 +37,19 @@ parser.add_argument(
 if __name__ == '__main__':
     args = parser.parse_args()
 
+    with open(os.path.join(path, 'secret.txt'), 'w+') as key:
+        key.write(args.key)
+
+    # Import modules
+    from LoginSystem.security import generate_ssl
+    from LoginSystem import app, db
+
     if ( not os.path.exists(db_path) ):
         os.mkdir(db_path)
 
     if ( args.ssl and not os.path.exists(key_path) ):
         generate_ssl()
 
-    app.config['SECRET_KEY'] = args.key
     print(f' * Server SECRET_KEY: {app.config["SECRET_KEY"]}')
     
     db.create_all(app=app)

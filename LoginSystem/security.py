@@ -1,4 +1,3 @@
-from secrets import token_urlsafe
 from OpenSSL import crypto, SSL
 
 def generate_ssl ():
