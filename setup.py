@@ -59,8 +59,19 @@ parser.add_argument(
 
 
 def setup ():
-    with open('settings.json', 'r') as setup_file:
-        settings = json.load(setup_file)
+    try:
+        with open('settings.json', 'r') as setup_file:
+            settings = json.load(setup_file)
+    except FileNotFoundError:
+        settings = {
+            'secret_key': 'SECRET_KEY',
+            'server_addr': '0.0.0.0',
+            'server_port': 80,
+            'email_server': 'localhost',
+            'email_port': 2525,
+            'email_username': None,
+            'email_password': None
+        }
 
     args = parser.parse_args()
     _args = dict(args.__dict__)
