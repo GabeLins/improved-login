@@ -69,9 +69,14 @@ def login ():
         _keep = 'keep' in request.form
 
         user = User.query.filter_by(username=_user).first()
+        if ( not user.verified ):
+            errs['vrfy'] = 'Please, verify your email.'
+            return redirect(url_for('auth.login'))
+        
         if ( user and checkpw(bytes(_pass, 'utf-8'), user.password)):
             login_user(user, remember=_keep)
             return redirect(url_for('home'))
+        
         else:
             errs['logn'] = 'Invalid username or password.'
             return redirect(url_for('auth.login'))
@@ -117,9 +122,29 @@ def register ():
 
             db.session.add(user)
             db.session.commit()
+            ticket = serializer.dumps(email, salt='verify-account')
+            send_mail(
+                (request.url_root, request.headers['Host']), 
+                ticket, email, 'verify'
+            )
             return redirect(url_for('auth.login'))
 
         return redirect(url_for('auth.register'))
+
+
+@auth.route('/verify/<ticket>', methods=['POST', 'GET'])
+def verify ( ticket ):
+    try:
+        email = serializer.loads(ticket, salt='verify-account', max_age=86400)
+    except:
+        return abort(401)
+
+    if ( request.method == 'GET' ):
+        user = User.query.filter_by(email=email).first()
+        user.verified = True
+        db.session.commit()
+
+        return redirect(url_for('auth.login'))
 
 
 @auth.route('/logout')
@@ -144,9 +169,9 @@ def recover ():
             return redirect(url_for('auth.recover'))
         
         ticket = serializer.dumps(email, salt='reset-password')
-        mail_recover(
+        send_mail(
             (request.url_root, request.headers['Host']), 
-            ticket, email
+            ticket, email, 'reset'
         )
 
     return redirect(url_for('auth.login'))

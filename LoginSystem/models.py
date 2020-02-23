@@ -8,6 +8,7 @@ class User ( UserMixin, db.Model ):
     username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
+    verified = db.Column(db.Boolean, nullable=False)
 
     def __init__ ( self, username, password, email, first_name, last_name ):
         self.username = username
@@ -15,3 +16,4 @@ class User ( UserMixin, db.Model ):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
+        self.verified = False

@@ -5,18 +5,21 @@ from secrets import token_urlsafe
 import os.path
 import smtplib
 
-def mail_recover ( domain, token, target ):
-    link = os.path.join(domain[0], f'reset/{token}')
+def send_mail ( domain, token, target, endpoint ):
+    link = os.path.join(domain[0], f'{endpoint}/{token}')
     sender = Address('Login No-Reply', token_urlsafe(24), domain[1])
 
-    with open('emails/recover.html', 'r') as body:
+    with open(f'emails/{endpoint}.html', 'r') as body:
         message = EmailMessage()
         message.add_alternative(
             body.read().replace('#[LINK]#', link),
             subtype='html'
         )
 
-    message['Subject'] = 'Password Recovery'
+    message['Subject'] = {
+        'reset': 'Password Recovery',
+        'verify': 'Verify Account'
+    }[endpoint]
     message['From'] = sender
     message['To'] = target
 
