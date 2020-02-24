@@ -25,7 +25,8 @@ def render_login ():
     return render_template(
         'login.html',
         title='Sign in',
-        errors=errors
+        errors=errors,
+        style='login.css'
     )
 
 
@@ -40,7 +41,8 @@ def render_register ():
     return render_template(
         'register.html',
         title='Sign up',
-        errors=errors
+        errors=errors,
+        style='register.css'
     )
 
 
@@ -64,11 +66,11 @@ def render_recover ():
 @auth.route('/login', methods=['POST', 'GET'])
 def login ():
     if ( request.method == 'POST' ):
-        _user = request.form['user']
-        _pass = request.form['pass']
+        _mail = request.form['email']
+        _pass = request.form['password']
         _keep = 'keep' in request.form
 
-        user = User.query.filter_by(username=_user).first()
+        user = User.query.filter_by(email=_mail).first()
         if ( not user.verified ):
             errs['vrfy'] = 'Please, verify your email.'
             return redirect(url_for('auth.login'))
@@ -78,8 +80,9 @@ def login ():
             return redirect(url_for('home'))
         
         else:
-            errs['logn'] = 'Invalid username or password.'
+            errs['logn'] = 'Invalid email or password.'
             return redirect(url_for('auth.login'))
+
 
 
 @auth.route('/register', methods=['POST', 'GET'])
@@ -91,6 +94,11 @@ def register ():
         password = request.form['password']
         confirm = request.form['confirm']
         email = request.form['email']
+        agree = 'agree' in request.form
+
+        if ( not agree ):
+            errs['term'] = 'You need to agree to our terms to create an account.'
+            return redirect(url_for('auth.register'))
 
         errs['user'] = (
             ''

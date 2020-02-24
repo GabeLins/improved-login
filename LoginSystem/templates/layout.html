@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/static/css/index.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/{{ style }}">
     <title>{{ title }}</title>
 </head>
-
 <body>
     {% block content %}
     {% endblock %}
-    <div id="particles"></div>
-    <script src="/static/js/particles.min.js"></script>
-    <script src="/static/js/index.js"></script>
-</body>
 
+    <div id="background"></div>
+    <div id="effect"></div>
+    
+    <footer>
+        {% block image %}
+        {% endblock %}
+        <a href="https://github.com/GabeLins/improved-login">Github Repo</a>
+    </footer>
+</body>
 </html>

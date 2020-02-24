@@ -1,54 +1,66 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="form-panel register">
-    <h1 class="sign-title">Sign up</h1>
+<div id="register">
+    <h1>Sign Up</h1>
+    <span>Already a member? <a href="{{ url_for('auth.login') }}">Sign in</a>!</span>
 
-    <span>
-        Already a member?
-        <a href="{{ url_for('auth.render_login') }}" class="sign-link">Sign in</a>!
-    </span>
+    <form method="POST">
+        <div class="fieldset">
+            <div class="form-row">
+                <label class="line">
+                    <input type="text" name="first" id="fname" placeholder=" ">
+                    <span class="holder">First Name</span>
+                    <span class="error">{{ errors.name }}</span>
+                </label>
+                <label class="line">
+                    <input type="text" name="last" id="lname" placeholder=" ">
+                    <span class="holder">Last Name</span>
+                    <span class="error">{{ errors.last }}</span>
+                </label>
+            </div>
 
-    <form class="sign-form" method="POST" id="reg">
-        <div class="form-row">
-            <div class="text-input">
-                <label for="first-name">First Name</label>
-                <input type="text" id="first-name" name="first" placeholder="Harry">
-                <span class="error" id="$err_name">{{ errors.name }}</span>
+            <div class="form-row">
+                <label class="full">
+                    <input type="text" name="username" id="username" placeholder=" ">
+                    <span class="holder">Username</span>
+                    <span class="error">{{ errors.user }}</span>
+                </label>
             </div>
-            <div class="text-input">
-                <label for="last-name">Last Name</label>
-                <input type="text" id="last-name" name="last" placeholder="Potter">
-                <span class="error" id="$err_last">{{ errors.last }}</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="text-input">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="harry.potter">
-                <span class="error" id="$err_user">{{ errors.user }}</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="text-input">
-                <label for="email">Email Address</label>
-                <input type="text" id="email" name="email" placeholder="harry.potter@hogwarts.edu">
-                <span class="error" id="$err_mail">{{ errors.mail }}</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="text-input">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password">
-                <span class="error" id="$err_leng">{{ errors.leng }}</span>
-            </div>
-            <div class="text-input">
-                <label for="confirm">Confirm Password</label>
-                <input type="password" id="confirm" name="confirm">
-                <span class="error" id="$err_pass">{{ errors.pass }}</span>
-            </div>
-        </div>
 
-        <input type="submit" id="submit" value="Sign up">
+            <div class="form-row">
+                <label class="full">
+                    <input type="text" name="email" id="email" placeholder=" ">
+                    <span class="holder">Email Address</span>
+                    <span class="error">{{ errors.mail }}</span>
+                </label>
+            </div>
+
+            <div class="form-row">
+                <label class="line">
+                    <input type="password" name="password" id="password" placeholder=" ">
+                    <span class="holder">Password</span>
+                    <span class="error">{{ errors.leng }}</span>
+                </label>
+                <label class="line">
+                    <input type="password" name="confirm" id="confirm" placeholder=" ">
+                    <span class="holder">Confirm</span>
+                    <span class="error">{{ errors.pass }}</span>
+                </label>
+            </div>
+
+            <div class="form-row" style="margin-top: 15px;">
+                <p>
+                    <input type="checkbox" name="agree" id="agree">
+                    By checking this box, you agree to our <a href="">Terms of Service</a>, including our <a href="">Cookie Use</a> and our <a href="">Data Use Policy</a>.
+                </p>
+                <span class="error">{{ errors.term }}</span>
+            </div>
+
+            <input id="sign" type="submit" value="Sign Up">
+        </div>
     </form>
 </div>
+{% endblock %}
+{% block image %}
+<a href="https://besthqwallpapers.com/en/download/112218/1920x1080">Background Photo</a>
 {% endblock %}
