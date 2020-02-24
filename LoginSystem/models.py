@@ -1,5 +1,7 @@
 from flask_login import UserMixin
 from LoginSystem import db
+import time
+
 
 class User ( UserMixin, db.Model ):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,8 +9,9 @@ class User ( UserMixin, db.Model ):
     last_name = db.Column(db.String, nullable=False)
     username = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, unique=True, nullable=False)
     verified = db.Column(db.Boolean, nullable=False)
+    timestamp = db.Column(db.Integer, nullable=False)
 
     def __init__ ( self, username, password, email, first_name, last_name ):
         self.username = username
@@ -17,3 +20,4 @@ class User ( UserMixin, db.Model ):
         self.first_name = first_name
         self.last_name = last_name
         self.verified = False
+        self.timestamp = int(time.time())
