@@ -60,11 +60,9 @@ parser.add_argument(
 
 def setup ():
     try:
-        # Attempt to load settings file
         with open('settings.json', 'r') as setup_file:
             settings = json.load(setup_file)
     except FileNotFoundError:
-        # Generate a settings dictionary using this default settings:
         settings = {
             'secret_key': 'SECRET_KEY',
             'server_addr': '0.0.0.0',
@@ -75,16 +73,13 @@ def setup ():
             'email_password': None
         }
 
-    # Parse the command-line arguments into a dictionary
     args = parser.parse_args()
     _args = dict(args.__dict__)
 
-    # Generate a new settings dictionary using the command-line keys
     for key in settings:
         if ( key == 'email_templates' ): continue
         settings[key] = _args[key] or settings[key]
     
-    # Store the new settings data in the settings.json file
     with open('settings.json', 'w') as setup_file:
         json.dump(settings, setup_file, indent=4)
     

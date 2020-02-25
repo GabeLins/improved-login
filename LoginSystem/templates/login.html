@@ -1,42 +1,38 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="panel" id="login">
-    <h1>Sign In</h1>
+<div class="form-panel login">
+    <h1 class="sign-title">Sign in</h1>
 
-    <form method="POST">
-        <div id="fieldset0" style="display: initial;">
-            <span>
-                Not a member yet? <a href="{{ url_for('auth.register') }}">Create an account!</a>
-            </span>
+    <span>
+        Not a member yet?
+        <a href="{{ url_for('auth.render_register') }}" class="sign-link">Create an account</a>!
+    </span>
 
-            <label id="mail-field" style="top: 20px;">
-                <input type="text" name="email" id="email" placeholder=" ">
-                <span class="holder">Email</span>
-                <span class="error" id="err_mail"></span>
-                <span class="error">{{ errors.logn or errors.vrfy }}</span>
-            </label>
-
-            <a href="#">Sign in with mobile</a>
-            <input id="next" type="button" value="Next">
+    <form class="sign-form" method="POST">
+        <div class="form-row">
+            <div class="text-input">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="user" placeholder="harry.potter">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="text-input">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="pass">
+                <span class="error">{{ errors.logn or errors.vrfy}}</span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="check-input" style="margin-top: -35px;">
+                <input type="checkbox" id="keep" name="keep">
+                <label for="keep">Keep me signed in</label>
+            </div>
         </div>
 
-        <div id="fieldset1" style="display: none;">
-            <span id="back" style="cursor: pointer;">
-                &larr;
-            </span>
-            <span id="address"></span>
-
-            <label id="pass-field" style="top: 20px;">
-                <input type="password" name="password" id="pass" placeholder=" ">
-                <span class="holder">Password</span>
-            </label>
-
-            <a href="#">Forgot your password?</a>
-            <input id="sign" type="submit" value="Sign In">
+        <input type="submit" id="submit" value="Sign in">
+        <div class="forget">
+            <a href="{{ url_for('auth.recover') }}" class="sign-link">Forgot your password?</a>
         </div>
     </form>
 </div>
-{% endblock %}
-{% block image %}
-<a href="https://www.deviantart.com/armend07/art/Windows-10-Night-Sky-Tent-Wallpaper-542886599">Background Photo</a>
 {% endblock %}

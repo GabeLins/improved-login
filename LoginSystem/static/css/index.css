@@ -1,0 +1,145 @@
+html,
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+        sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+#particles {
+    background: linear-gradient(480deg, #8437a6, #a66bbf);
+    position: absolute;
+
+    height: 100%;
+    width: 100%;
+}
+
+.login { --height: 540px; }
+.register { --height: 670px; }
+
+.form-panel {
+    --width: 470px;
+    background-color: #ffffff90;
+    padding: 50px;
+
+    position: fixed;
+    left: 50%;
+    margin-left: calc((var(--width) + 100px) / -2);
+    top: 50%;
+    margin-top: calc((var(--height) + 100px) / -2);
+    z-index: 1;
+
+    height: var(--height);
+    width: var(--width);
+    backdrop-filter: blur(4px);
+}
+
+.sign-form {
+    position: relative;
+    top: 65px;
+}
+
+.sign-title {
+    margin: 0;
+}
+
+.sign-link {
+    display: inline-block;
+    color: #5a3095;
+}
+
+.sign-link:hover {
+    text-decoration: underline;
+}
+
+.form-row {
+    margin-bottom: 40px;
+    display: flex;
+    width: 100%;
+}
+
+.text-input {
+    width: 100%;
+    margin-right: 10px;
+}
+
+.text-input + * {
+    width: calc(100% - 10px);
+    margin-left: 10px;
+}
+
+.text-input * {
+    display: block;
+}
+
+.text-input input {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    outline: none;
+    border-bottom: 2px solid #afafaf;
+    font-size: 1.3em;
+    height: 2em;
+    width: 100%;
+}
+
+.text-input input:focus,
+.text-input input:active {
+    border-bottom: 2px solid #5a3095;
+}
+
+input[type=submit] {
+    background: #7613a0;
+    color: #ffffff;
+    border: 3px solid transparent;
+    margin: 30px 7.5%;
+    font-size: 1.4em;
+    width: 85%;
+    height: 50px;
+}
+
+input[type=submit]:hover {
+    border-color: #7613a0;
+    background: transparent;
+    color: #7613a0;
+}
+
+input[type=checkbox] {
+    margin-top: 20px;
+    transform: scale(1.3);
+}
+
+.forget {
+    position: relative;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+.error {
+    color: #ff2e39;
+    margin-bottom: -10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .form-panel {
+        --width: 100% !important;
+        --height: 100% !important;
+        top: 0;
+        left: 0;
+        margin: -1px;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .form-row {
+        padding: 0 2.5%;
+        width: 95%;
+    }
+}
