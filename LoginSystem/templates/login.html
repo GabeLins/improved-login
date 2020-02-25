@@ -3,7 +3,7 @@
 <div class="panel" id="login">
     <h1>Sign In</h1>
 
-    <form>
+    <form method="POST">
         <div id="fieldset0" style="display: initial;">
             <span>
                 Not a member yet? <a href="{{ url_for('auth.register') }}">Create an account!</a>
@@ -12,6 +12,8 @@
             <label id="mail-field" style="top: 20px;">
                 <input type="text" name="email" id="email" placeholder=" ">
                 <span class="holder">Email</span>
+                <span class="error" id="err_mail"></span>
+                <span class="error">{{ errors.logn or errors.vrfy }}</span>
             </label>
 
             <a href="#">Sign in with mobile</a>
