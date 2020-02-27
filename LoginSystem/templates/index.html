@@ -1,11 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="form-panel" style="--height: 80px;">
-    <h1 class="sign-title">Welcome, {{ user.first_name }} {{ user.last_name }}!</h1>
+<h1>Welcome, {{ user.first_name }} {{ user.last_name }}!</h1>
 
-    <span>
-        @{{ user.username }}:
-        <a href="{{ url_for('auth.logout') }}" class="sign-link">Log out</a>!
-    </span>
-</div>
+<span>
+    @{{ user.username }}:
+    <a href="{{ url_for('auth.logout') }}">Log out</a>!
+</span>
 {% endblock %}

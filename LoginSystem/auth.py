@@ -34,8 +34,7 @@ def render_login ():
     return render_template(
         'login.html',
         title='Sign in',
-        errors=errors,
-        style='login.css'
+        errors=errors
     )
 
 
@@ -52,8 +51,7 @@ def render_register ():
     return render_template(
         'register.html',
         title='Sign up',
-        errors=errors,
-        style='register.css'
+        errors=errors
     )
 
 
@@ -81,9 +79,9 @@ def render_recover ():
 def login ():
     if ( request.method == 'POST' ):
         # Get login form data
-        _mail = request.form['email']
+        _mail = request.form['contact'] # TODO: Add phone number support
         _pass = request.form['password']
-        _keep = 'keep' in request.form
+        _keep = 'remember' in request.form
 
         # Get user from database
         user = User.query.filter_by(email=_mail).first()
@@ -110,12 +108,12 @@ def login ():
 def register ():
     if ( request.method == 'POST' ):
         # Get sign up form data
-        first_name = request.form['first']
-        last_name = request.form['last']
+        first_name = request.form['first-name']
+        last_name = request.form['last-name']
         username = request.form['username']
         password = request.form['password']
         confirm = request.form['confirm']
-        email = request.form['email']
+        email = request.form['contact'] # TODO: Add phone number support
         agree = 'agree' in request.form
 
         # Return an error if the user didn't agree with the terms of service.
@@ -214,7 +212,7 @@ def logout ():
 def recover ():
     if ( request.method == 'POST' ):
         # Get user account email
-        email = request.form['mail']
+        email = request.form['contact']
 
         # Check if email is valid
         errs['recv'] = (
@@ -240,7 +238,7 @@ def recover ():
 
 
 # Password Reset
-@auth.route('/reset/<ticket>', methods=['POST', 'GET'])
+@auth.route('/recover/token/<ticket>', methods=['POST', 'GET'])
 def reset ( ticket: str ):
     errors = dict(errs)
     errs.clear()

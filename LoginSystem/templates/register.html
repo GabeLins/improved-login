@@ -1,54 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="form-panel register">
-    <h1 class="sign-title">Sign up</h1>
+<h1>Sign Up</h1>
+<p>Already a member? <a href="{{ url_for('auth.login') }}">Sign in!</a></p>
 
-    <span>
-        Already a member?
-        <a href="{{ url_for('auth.render_login') }}" class="sign-link">Sign in</a>!
-    </span>
+<form method="POST">
+    <div>
+        <label for="first-name">First Name:</label>
+        <input type="text" name="first-name" id="first-name">
+    </div>
 
-    <form class="sign-form" method="POST" id="reg">
-        <div class="form-row">
-            <div class="text-input">
-                <label for="first-name">First Name</label>
-                <input type="text" id="first-name" name="first" placeholder="Harry">
-                <span class="error" id="$err_name">{{ errors.name }}</span>
-            </div>
-            <div class="text-input">
-                <label for="last-name">Last Name</label>
-                <input type="text" id="last-name" name="last" placeholder="Potter">
-                <span class="error" id="$err_last">{{ errors.last }}</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="text-input">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="harry.potter">
-                <span class="error" id="$err_user">{{ errors.user }}</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="text-input">
-                <label for="email">Email Address</label>
-                <input type="text" id="email" name="email" placeholder="harry.potter@hogwarts.edu">
-                <span class="error" id="$err_mail">{{ errors.mail }}</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="text-input">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password">
-                <span class="error" id="$err_leng">{{ errors.leng }}</span>
-            </div>
-            <div class="text-input">
-                <label for="confirm">Confirm Password</label>
-                <input type="password" id="confirm" name="confirm">
-                <span class="error" id="$err_pass">{{ errors.pass }}</span>
-            </div>
-        </div>
+    <div>
+        <label for="last-name">Last Name:</label>
+        <input type="text" name="last-name" id="last-name">
+    </div>
 
-        <input type="submit" id="submit" value="Sign up">
-    </form>
-</div>
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username">
+    </div>
+
+    <div>
+        <label for="contact">Email or Number:</label>
+        <input type="text" name="contact" id="contact">
+    </div>
+
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password">
+    </div>
+
+    <div>
+        <label for="confirm">Confirm:</label>
+        <input type="password" name="confirm" id="confirm">
+    </div>
+
+    <div>
+        <input type="checkbox" name="agree" id="agree">
+        <span>I agree with the terms of service.</span>
+    </div>
+
+    <div>
+        <input type="submit" value="Sign Up">
+    </div>
+</form>
 {% endblock %}
